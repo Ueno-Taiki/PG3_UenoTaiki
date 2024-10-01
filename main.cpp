@@ -3,8 +3,7 @@
 
 int main() {
 	SetConsoleOutputCP(65001);
-
-	printf("あああああ");
-
+	char str[] = "ウエノタイキ";
+	printf("%s", str);
 	return 0;
 }
