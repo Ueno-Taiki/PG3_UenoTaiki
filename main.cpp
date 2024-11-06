@@ -1,59 +1,46 @@
 #include <stdio.h>
-#include <Windows.h>
+#include <iostream>
 
-typedef struct Enemy Enemy;
+template <typename Type, typename Type2>
 
-//状態を表す関数ポインタ型
-typedef void (*StateFunc)(Enemy*);
+class TemplateClass {
+public:
+	//コンストラクタ（メンバ変数Number1,Number2を引数number1,number2で初期化）
+	TemplateClass(Type number1, Type2 number2) :
+		Number1(number1), Number2(number2) {}
 
-//Enemyクラスの定義
-struct Enemy {
-    StateFunc currentState;  //現在の状態を示す関数ポインタ
-    int distance;            //プレイヤーとの距離を表す
+	Type Min()
+	{
+		if (Number1 < Number2)
+		{
+			return static_cast<Type>(Number1);
+		}
+		else {
+			return static_cast<Type2>(Number2);
+		}
+	};
+
+private:
+	Type Number1;
+	Type2 Number2;
 };
 
-//各状態を表す関数
-void approach(Enemy* enemy);
-void shoot(Enemy* enemy);
-void retreat(Enemy* enemy);
-
-//状態遷移関数
-void changeState(Enemy* enemy, StateFunc newState) {
-    enemy->currentState = newState;
-}
-
-//接近状態
-void approach(Enemy* enemy) {
-    printf("敵はプレイヤーに接近しています...\n");
-    enemy->distance -= 1;
-    if (enemy->distance <= 1) {
-        changeState(enemy, shoot);  // 射撃状態に移行
-    }
-}
-
-//射撃状態
-void shoot(Enemy* enemy) {
-    printf("敵はプレイヤーに射撃しています！\n");
-    changeState(enemy, retreat);  // 射撃後は離脱状態に移行
-}
-
-//離脱状態
-void retreat(Enemy* enemy) {
-    printf("敵はプレイヤーから離脱しています...\n");
-    enemy->distance += 2;
-    if (enemy->distance >= 10) {
-        changeState(enemy, approach);  //一定距離離れたら再び接近状態に移行
-    }
-}
-
 int main() {
-    //敵オブジェクトの初期化
-    Enemy enemy = { approach, 5 };  //初期状態は接近で、距離5から開始
 
-    //状態遷移のシミュレーション
-    for (int i = 0; i < 10; ++i) {
-        enemy.currentState(&enemy);  //現在の状態を実行
-    }
+	/*クラス名から型を考えて<>の中を定義*/
+	TemplateClass<int, float> intFloatTemplate(10, 50.0f);
+	TemplateClass<int, double> intDoubleTemplate(80, 13.0);
+	TemplateClass<float, int> floatIntTemplate(2.0f, 9);
+	TemplateClass<float, double> floatDoubleTemplate(11.0f, 3.5);
+	TemplateClass<double, int> doubleIntTemplate(666.0, 333);
+	TemplateClass<double, float> doubleFloatTemplate(435.8, 563.5f);
 
-    return 0;
+	std::cout << "int(10) と float(50.0f) を比べて小さい数字を表す: " << intFloatTemplate.Min() << std::endl;
+	std::cout << "int(80) と double(13.0) を比べて小さい数字を表す: " << intDoubleTemplate.Min() << std::endl;
+	std::cout << "float(2.0f) と int(9) を比べて小さい数字を表す: " << floatIntTemplate.Min() << std::endl;
+	std::cout << "float(11.0f) と double(3.5) を比べて小さい数字を表す: " << floatDoubleTemplate.Min() << std::endl;
+	std::cout << "double(666.0) と int(333) を比べて小さい数字を表す: " << doubleIntTemplate.Min() << std::endl;
+	std::cout << "double(435.8) と float(563.5f) を比べて小さい数字を表す: " << doubleFloatTemplate.Min() << std::endl;
+
+	return 0;
 }
