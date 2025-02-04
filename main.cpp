@@ -8,7 +8,11 @@ using namespace std;
 
 int main() {
     // 駅名のリストを定義
-    list<const char*> rosen = { "田端", "日暮里", "西日暮里" };
+    list<const char*> rosen = { "Tokyo", "Kanda", "Akihabara", "Okachimachi", "Ueno", "Uguisudani",
+        "Nippori", "Tabata", "Komagome", "Sugamo", "Otsuka", "Ikebukuro", "Mejiro",
+        "Takadanobaba", "Sin-Okubo", "Shinjuku", "Yoyogi", "Harajuku", "Shibuya",
+        "Ebisu", "Meguro", "Gotanda", "Osaki", "Sinagawa", "Tamachi", "Hamamatsucho",
+        "Shimbashi", "Yurakucho" };
 
     // 初期状態のリストを表示
     cout << "初期の駅リスト:" << endl;
@@ -17,8 +21,7 @@ int main() {
     }
 
     // 駅を追加
-    rosen.push_back("上野");
-    rosen.push_back("御徒町");
+    rosen.push_back("Tabata");
 
     // 駅追加後のリストを表示
     cout << "\n駅を追加した後のリスト:" << endl;
@@ -27,8 +30,7 @@ int main() {
     }
 
     // さらに駅を追加
-    rosen.push_back("秋葉原");
-    rosen.push_back("神田");
+    rosen.push_back("Tamachi");
 
     // さらに追加後のリストを表示
     cout << "\nさらに駅を追加した後のリスト:" << endl;
