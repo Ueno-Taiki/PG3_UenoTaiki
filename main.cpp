@@ -1,20 +1,27 @@
 #include <iostream>
-#include <thread>
-
-using namespace std;
-
-void PrintThread(uint32_t num) {
-	cout << "thread No" << num << endl;
-}
+#include <string>
+#include <chrono>
 
 int main() {
+    // 10万文字の 'a' で初期化
+    std::string a(100000, 'a');
 
-	thread t1(PrintThread, 1);
-	t1.join();
-	thread t2(PrintThread, 2);
-	t2.join();
-	thread t3(PrintThread, 3);
-	t3.join();
+    // コピーの計測
+    auto start_copy = std::chrono::high_resolution_clock::now();
+    std::string b = a; // コピー
+    auto end_copy = std::chrono::high_resolution_clock::now();
 
-	return 0;
+    // 移動の計測
+    auto start_move = std::chrono::high_resolution_clock::now();
+    std::string c = std::move(a); // ムーブ
+    auto end_move = std::chrono::high_resolution_clock::now();
+
+    // 時間の計算と表示
+    auto copy_time = std::chrono::duration_cast<std::chrono::microseconds>(end_copy - start_copy).count();
+    auto move_time = std::chrono::duration_cast<std::chrono::microseconds>(end_move - start_move).count();
+
+    std::cout << "Copy time: " << copy_time << " us" << std::endl;
+    std::cout << "Move time: " << move_time << " us" << std::endl;
+
+    return 0;
 }
